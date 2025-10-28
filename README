@@ -18,3 +18,24 @@
  │   http://localhost:31000                                           │
  └────────────────────────────────────────────────────────────────────┘
 
+project-root/
+├── frontend/
+│   ├── Dockerfile
+│   ├── vite.config.js
+│   ├── src/
+│   └── package.json
+│
+├── backend/
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── requirements.txt
+│   └── app/
+│       └── routes/
+│
+├── k8s/
+│   ├── frontend.yml
+│   ├── backend.yml
+│   ├── postgres.yml
+│   └── secrets.yml
+│
+└── Jenkinsfile
