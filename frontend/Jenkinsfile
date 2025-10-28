@@ -52,6 +52,8 @@ pipeline {
                     kubectl set image deployment/infrafront-deployment infrafront=${IMAGE_NAME}:${BUILD_TAG} -n app || true
                     kubectl rollout status deployment/infrafront-deployment -n app
                     """
+                    sh "kubectl apply -f status k8s/frontend_deployment.yml"
+                    sh "kubectl rollout status deployment/infrafront-deployment -n app"
                 }
             }
         }
