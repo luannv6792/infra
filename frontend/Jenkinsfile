@@ -1,0 +1,68 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')   // Jenkins credential ID
+        DOCKERHUB_USER = "${DOCKERHUB_CREDENTIALS_USR}"
+        DOCKERHUB_PASS = "${DOCKERHUB_CREDENTIALS_PSW}"
+        IMAGE_NAME = "luannv67922/infrafront"
+        BUILD_TAG = "v${BUILD_NUMBER}"
+        KUBECONFIG = "/root/.kube/config"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo "📦 Cloning frontend source code..."
+                checkout scm
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo "🐳 Building Docker image..."
+                    sh """
+                    docker build -t ${IMAGE_NAME}:${BUILD_TAG} -t ${IMAGE_NAME}:latest ./frontend
+                    """
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    echo "🚀 Pushing image to DockerHub..."
+                    sh """
+                    echo "${DOCKERHUB_PASS}" | docker login -u "${DOCKERHUB_USER}" --password-stdin
+                    docker push ${IMAGE_NAME}:${BUILD_TAG}
+                    docker push ${IMAGE_NAME}:latest
+                    docker logout
+                    """
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    echo "☸️ Deploying frontend to Kubernetes..."
+                    sh """
+                    kubectl set image deployment/infrafront-deployment infrafront=${IMAGE_NAME}:${BUILD_TAG} -n app || true
+                    kubectl rollout status deployment/infrafront-deployment -n app
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Deployment completed successfully!"
+        }
+        failure {
+            echo "❌ Deployment failed!"
+        }
+    }
+}
