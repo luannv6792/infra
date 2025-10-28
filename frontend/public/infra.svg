@@ -1,0 +1,11 @@
+import infraLogo from "/infra.svg";
+
+export default function App() {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+      <img src={infraLogo} alt="Infra Logo" className="w-20 h-20 mb-4 drop-shadow-xl" />
+      <h1 className="text-4xl font-bold text-blue-600">L Dashboard</h1>
+      <p className="mt-2 text-gray-500">Modern monitoring & analytics</p>
+    </div>
+  );
+}
