@@ -3,7 +3,7 @@ FROM node:20-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
-COPY . .
+COPY frontend/ ./
 RUN npm run build
 
 # Stage 2: serve using nginx
