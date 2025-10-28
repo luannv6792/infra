@@ -19,23 +19,19 @@
  └────────────────────────────────────────────────────────────────────┘
 
 project-root/
-├── frontend/
-│   ├── Dockerfile
-│   ├── vite.config.js
-│   ├── src/
-│   └── package.json
-│
 ├── backend/
 │   ├── Dockerfile
 │   ├── main.py
 │   ├── requirements.txt
-│   └── app/
-│       └── routes/
-│
-├── k8s/
-│   ├── frontend.yml
-│   ├── backend.yml
-│   ├── postgres.yml
-│   └── secrets.yml
-│
-└── Jenkinsfile
+│   ├── k8s/
+│   │   └── backend_deployment.yml
+│   └── Jenkinsfile   # ✅ Pipeline riêng cho backend
+├── frontend/
+│   ├── Dockerfile
+│   ├── src/...
+│   ├── k8s/
+│   │   └── frontend_deployment.yml
+│   └── Jenkinsfile   # ✅ Pipeline riêng cho frontend
+└── database/
+    ├── k8s/
+    │   └── postgres_deployment.yml
