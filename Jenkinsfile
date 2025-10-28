@@ -2,9 +2,9 @@ pipeline {
   agent any
 
   environment {
-    DOCKERHUB_USER = credentials('dockerhub-user')
-    DOCKERHUB_PASS = credentials('dockerhub-pass')
-    IMAGE_NAME = 'luannv67922/php'
+    //DOCKERHUB_USER = credentials('dockerhub-user')
+    //DOCKERHUB_PASS = credentials('dockerhub-pass')
+    //IMAGE_NAME = 'luannv67922/php'
     DOCKERHUB_CREDENTIALS = 'dockerhub'
   }
 
