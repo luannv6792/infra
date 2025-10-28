@@ -49,7 +49,6 @@ pipeline {
 */
     stage('Deploy to Kubernetes') {
       steps {
-        sh "kubectl delete -f k8s/postgres_deployment.yml"
         sh "kubectl apply -f k8s/postgres_deployment.yml"
       }
     }
