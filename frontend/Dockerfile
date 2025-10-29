@@ -1,5 +1,6 @@
 # Stage 1: build frontend
 FROM node:20-alpine AS build
+RUN apk add --no-cache curl
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
