@@ -12,7 +12,7 @@ def get_db_connection():
         port=os.getenv("POSTGRES_PORT", "5432"),
         dbname=os.getenv("POSTGRES_DB", "analyticsdb"),
         user=os.getenv("POSTGRES_USER", "admin"),
-        password=os.getenv("POSTGRES_PASSWORD", "admin")
+        password=os.getenv("POSTGRES_PASSWORD", "luannv@123")
     )
 
 @app.route("/api/login", methods=["POST"])
