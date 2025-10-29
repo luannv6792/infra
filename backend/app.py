@@ -3,6 +3,9 @@ import psycopg2, os
 
 app = Flask(__name__)
 
+from flask_cors import CORS
+CORS(app)
+
 def get_db_connection():
     return psycopg2.connect(
         host=os.getenv("POSTGRES_HOST", "postgres"),
