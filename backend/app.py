@@ -6,7 +6,7 @@ import time
 app = Flask(__name__)
 
 DB_HOST = os.getenv("POSTGRES_HOST", "postgres-service.dbcenter.svc.cluster.local")
-DB_NAME = os.getenv("POSTGRES_DB", "infradb")
+DB_NAME = os.getenv("POSTGRES_DB", "analyticsdb")
 DB_USER = os.getenv("POSTGRES_USER", "admin")
 DB_PASS = os.getenv("POSTGRES_PASSWORD", "luannv@1231")
 
