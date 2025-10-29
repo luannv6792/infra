@@ -1,64 +1,58 @@
-from flask import Flask, request, jsonify
-import psycopg2
-import os
-import time
+from flask import Flask, jsonify, request
+import psycopg2, os
 
 app = Flask(__name__)
 
-DB_HOST = os.getenv("POSTGRES_HOST", "postgres-service.dbcenter.svc.cluster.local")
-DB_NAME = os.getenv("POSTGRES_DB", "analyticsdb")
-DB_USER = os.getenv("POSTGRES_USER", "admin")
-DB_PASS = os.getenv("POSTGRES_PASSWORD", "luannv@1231")
+def get_db_connection():
+    return psycopg2.connect(
+        host=os.getenv("POSTGRES_HOST", "postgres"),
+        port=os.getenv("POSTGRES_PORT", "5432"),
+        dbname=os.getenv("POSTGRES_DB", "analyticsdb"),
+        user=os.getenv("POSTGRES_USER", "admin"),
+        password=os.getenv("POSTGRES_PASSWORD", "admin")
+    )
 
-def check_db_connection():
-    """Thử kết nối DB, nếu lỗi thì retry 5 lần trước khi báo fail."""
-    for i in range(5):
-        try:
-            conn = psycopg2.connect(
-                host=DB_HOST, dbname=DB_NAME, user=DB_USER, password=DB_PASS
-            )
-            conn.close()
-            return True
-        except Exception as e:
-            print(f"[WARN] Database not ready (attempt {i+1}/5): {e}")
-            time.sleep(3)
-    return False
-
-@app.route("/healthz", methods=["GET"])
-def healthz():
-    """API health-check để xác minh backend & database hoạt động."""
-    ok = check_db_connection()
-    if ok:
-        return jsonify({"status": "ok", "db": "connected"}), 200
-    else:
-        return jsonify({"status": "error", "db": "unreachable"}), 500
-
-@app.route("/login", methods=["POST"])
+@app.route("/api/login", methods=["POST"])
 def login():
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
 
+    if not username or not password:
+        return jsonify({"error": "Missing username or password"}), 400
+
     try:
-        conn = psycopg2.connect(
-            host=DB_HOST, dbname=DB_NAME, user=DB_USER, password=DB_PASS
-        )
+        conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT password FROM users WHERE username = %s", (username,))
-        result = cur.fetchone()
+        cur.execute(
+            "SELECT id, full_name FROM users WHERE username=%s AND password=%s",
+            (username, password)
+        )
+        user = cur.fetchone()
         conn.close()
 
-        if result and result[0] == password:
-            return jsonify({"message": "Đăng nhập thành công!"})
+        if user:
+            return jsonify({"status": "success", "user": {"id": user[0], "full_name": user[1]}}), 200
         else:
-            return jsonify({"message": "Sai tên đăng nhập hoặc mật khẩu."}), 401
+            return jsonify({"status": "fail", "message": "Invalid credentials"}), 401
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/health")
+def health():
+    return jsonify({"status": "ok"}), 200
+
+@app.route("/dbcheck")
+def dbcheck():
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT 1;")
+        conn.close()
+        return jsonify({"db": "ok"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    print("[INFO] Checking database connection before starting Flask...")
-    if not check_db_connection():
-        print("[ERROR] Database connection failed. Exiting.")
-        exit(1)
-    print("[INFO] Database ready. Starting Flask server.")
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=8000)
