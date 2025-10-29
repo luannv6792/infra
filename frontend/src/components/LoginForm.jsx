@@ -1,21 +1,50 @@
 // components/LoginForm.jsx
 import React, { useState } from 'react'
 
-export default function LoginForm({ onLogin }) {
+export default function LoginForm() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    onLogin(username, password)
+    setLoading(true)
+    setMessage('')
+
+    try {
+      const res = await fetch('http://infraback-service.app.svc.cluster.local:8000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        if (data.status === 'success') {
+          setMessage('✅ Đăng nhập thành công!')
+        } else {
+          setMessage('❌ Sai tài khoản hoặc mật khẩu.')
+        }
+      } else {
+        setMessage('⚠️ Không thể kết nối tới backend.')
+      }
+    } catch (err) {
+      setMessage('⚠️ Lỗi kết nối server.')
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-[#1F2937] p-8 rounded-2xl shadow-2xl w-96"
+      className="bg-[#1F2937] p-8 rounded-2xl shadow-2xl w-96 text-center"
     >
-      <h2 className="text-3xl font-bold text-center mb-6 text-[#60A5FA] drop-shadow-md">
+      <h2 className="text-3xl font-bold mb-6 text-[#60A5FA] drop-shadow-md">
         L infra
       </h2>
 
@@ -37,10 +66,19 @@ export default function LoginForm({ onLogin }) {
 
       <button
         type="submit"
-        className="w-full py-3 bg-[#2563EB] hover:bg-[#1D4ED8] rounded-lg font-semibold text-white transition-all shadow-lg"
+        disabled={loading}
+        className={`w-full py-3 rounded-lg font-semibold text-white transition-all shadow-lg ${
+          loading
+            ? 'bg-gray-500 cursor-not-allowed'
+            : 'bg-[#2563EB] hover:bg-[#1D4ED8]'
+        }`}
       >
-        Đăng nhập
+        {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
       </button>
+
+      {message && (
+        <p className="mt-4 text-gray-200 font-medium">{message}</p>
+      )}
     </form>
   )
 }
