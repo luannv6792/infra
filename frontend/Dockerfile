@@ -3,7 +3,7 @@ FROM node:20-alpine AS builder
 RUN apk add --no-cache curl
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 COPY . .
 RUN npm run build
 
