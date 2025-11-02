@@ -1,21 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-export default function LoginForm({ onLogin }) {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+export default function LoginForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    await onLogin(username, password)
-    setLoading(false)
-  }
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+
+    try {
+      const response = await fetch("http://localhost:32001/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage("✅ Đăng nhập thành công!");
+      } else {
+        setMessage("❌ " + data.message);
+      }
+    } catch (error) {
+      setMessage("⚠️ Lỗi kết nối server.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-[#1F2937] p-8 rounded-2xl shadow-2xl w-96 transition-all fade-in"
+      className="bg-[#1F2937] p-8 rounded-2xl shadow-2xl w-96"
     >
       <h2 className="text-3xl font-bold text-center mb-6 text-[#60A5FA] drop-shadow-md">
         L infra
@@ -40,14 +60,14 @@ export default function LoginForm({ onLogin }) {
       <button
         type="submit"
         disabled={loading}
-        className={`w-full py-3 rounded-lg font-semibold text-white transition-all shadow-lg ${
-          loading
-            ? 'bg-gray-500 cursor-not-allowed'
-            : 'bg-[#2563EB] hover:bg-[#1D4ED8]'
-        }`}
+        className="w-full py-3 bg-[#2563EB] hover:bg-[#1D4ED8] rounded-lg font-semibold text-white transition-all shadow-lg"
       >
-        {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+        {loading ? "Đang đăng nhập..." : "Đăng nhập"}
       </button>
+
+      {message && (
+        <p className="text-center text-sm text-gray-300 mt-4">{message}</p>
+      )}
     </form>
-  )
+  );
 }
