@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infras Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  </script>
+</head>
+<body>
+  <div class="dashboard fade-in">
+    <aside class="sidebar">
+      <div class="menu-item">Applications</div>
+      <div class="menu-item">Reports</div>
+      <div class="menu-item">Settings</div>
+    </aside>
+    <main class="content">
+      <h1>Welcome to Infras Dashboard</h1>
+    </main>
+  </div>
+</body>
+</html>
