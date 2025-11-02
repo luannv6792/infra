@@ -1,4 +1,3 @@
--- k8s/init_db.sql
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE TABLE IF NOT EXISTS users (
@@ -9,7 +8,6 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- user demo: username=admin password=admin
 INSERT INTO users (username, password, full_name)
 VALUES ('admin', 'admin', 'Administrator')
 ON CONFLICT (username) DO NOTHING;
