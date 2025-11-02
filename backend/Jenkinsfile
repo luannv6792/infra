@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     echo "🏗️ Building Docker image..."
-                    sh "docker build -t ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} backend/."
+                    sh "docker build -t ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} backend/. -t ${DOCKERHUB_USER}/${IMAGE_NAME}:latest backend/."
                 }
             }
         }
