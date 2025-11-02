@@ -1,27 +1,44 @@
-import React, { useState } from 'react'
-import Sidebar from './Sidebar'
-import ThemeToggle from './ThemeToggle'
+import React from "react";
+import { motion } from "framer-motion";
 
-export default function Dashboard({ username, onLogout }) {
-  const [active, setActive] = useState('apps')
+export default function Dashboard({ theme, setTheme }) {
+  const menus = ["Applications", "Reports", "Settings"];
+
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-[#0F111A] text-gray-900 dark:text-white transition-colors">
-      <Sidebar active={active} onSelect={setActive}/>
-      <div className="flex-1 p-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Welcome, {username}</h1>
-          <div className="flex gap-3 items-center">
-            <ThemeToggle/>
-            <button onClick={onLogout} className="px-3 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white">Logout</button>
-          </div>
-        </div>
+    <div className={`flex min-h-screen ${theme === "dark" ? "bg-[#0F111A] text-white" : "bg-gray-100 text-gray-800"} transition-all`}>
+      {/* Sidebar */}
+      <aside className="w-64 p-6 border-r border-gray-700">
+        <h2 className="text-2xl font-bold mb-8">Infras Dashboard</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="menu-card">Main content area for {active}</div>
-          <div className="menu-card">Widgets / stats</div>
-          <div className="menu-card">More content</div>
-        </div>
-      </div>
+        {menus.map((menu, index) => (
+          <motion.div
+            key={index}
+            whileHover={{ scale: 1.05 }}
+            className="cursor-pointer mb-4 p-3 rounded-lg hover:bg-[#2563EB] hover:text-white transition-all"
+          >
+            {menu}
+          </motion.div>
+        ))}
+
+        <button
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="mt-6 w-full bg-gray-600 hover:bg-gray-500 text-white py-2 rounded-lg"
+        >
+          {theme === "dark" ? "🌞 Light Mode" : "🌙 Dark Mode"}
+        </button>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 flex items-center justify-center">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl font-semibold"
+        >
+          Welcome to Infras
+        </motion.h1>
+      </main>
     </div>
-  )
+  );
 }
