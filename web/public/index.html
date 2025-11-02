@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infras Login</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="gradient-bg">
+  <div class="login-container">
+    <h1 class="logo">Infras</h1>
+    <form onsubmit="login(event)">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Đăng nhập</button>
+    </form>
+  </div>
+
+  <script>
+    function login(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      // giả lập login thành công
+      if (username === "admin" && password === "admin") {
+        localStorage.setItem("theme", "dark");
+        window.location.href = "dashboard.html";
+      } else {
+        alert("Sai username hoặc mật khẩu");
+      }
+    }
+  </script>
+</body>
+</html>
