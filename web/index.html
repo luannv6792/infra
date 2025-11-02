@@ -13,14 +13,12 @@
       e.preventDefault();
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
-
       try {
         const res = await fetch("http://localhost:32001/api/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password }),
         });
-
         if (res.ok) {
           window.location.href = "dashboard.html";
         } else {
@@ -41,10 +39,11 @@
   </script>
 </head>
 <body>
-  <div class="login-wrapper fade-in">
-    <div class="login-card glass">
+  <div class="bg-animation"></div>
+  <div class="login-container">
+    <div class="login-card">
       <h1 class="logo">Infras</h1>
-      <form onsubmit="login(event)" class="login-form">
+      <form onsubmit="login(event)">
         <input id="username" type="text" placeholder="Username" required />
         <input id="password" type="password" placeholder="Password" required />
         <button type="submit">Đăng nhập</button>
