@@ -1,17 +1,16 @@
-# Build stage
-FROM node:20-alpine AS builder
+# Stage 1: build React
+FROM node:20-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm install --legacy-peer-deps
-# ensure libs exist (in case package.json missing)
-RUN npm install framer-motion lucide-react --legacy-peer-deps
+RUN npm install
 COPY . .
+ARG VITE_API_BASE_URL=http://infraback-service.app.svc.cluster.local:8000
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 RUN npm run build
 
-# Serve stage
+# Stage 2: serve with nginx
 FROM nginx:alpine
-RUN rm /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
