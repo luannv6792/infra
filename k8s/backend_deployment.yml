@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: infraback
-          image: YOUR_DOCKERHUB_USER/infraback:latest   # replace
+          image: luannv67922/infraback:latest   # replace
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
