@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: infrafront
-          image: luannv67922/infrafront:latest
+          image: YOUR_DOCKERHUB_USER/infrafront:latest  # replace
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -34,5 +34,5 @@ spec:
     - name: http
       port: 80
       targetPort: 80
-      nodePort: 32002
+      nodePort: 32000
   type: NodePort
