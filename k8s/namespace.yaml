@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dbcenter
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app
