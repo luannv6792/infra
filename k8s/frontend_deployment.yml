@@ -32,7 +32,7 @@ spec:
     app: infrafront
   ports:
     - name: http
-      port: 80
-      targetPort: 80
+      port: 5173
+      targetPort: 5173
       nodePort: 32002
   type: NodePort
