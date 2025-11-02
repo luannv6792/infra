@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infra-web-deployment
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infra-web
+  template:
+    metadata:
+      labels:
+        app: infra-web
+    spec:
+      containers:
+      - name: infra-web
+        image: luannv67922/infra-web:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: infra-web-service
+  namespace: app
+spec:
+  type: NodePort
+  selector:
+    app: infra-web
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 32003
