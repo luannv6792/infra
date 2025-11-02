@@ -8,6 +8,7 @@ pipeline {
     // 🔧 Tên image DockerHub (chỉnh lại cho đúng namespace của bạn)
     IMAGE_NAME = "luannv67922/infra-web"
   }
+  stages {
 
     stage('Build Docker Image') {
       steps {
