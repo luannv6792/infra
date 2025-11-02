@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: infrafront
-          image: luannv67922/infrafront:latest  # replace
+          image: luannv67922/infrafront:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
