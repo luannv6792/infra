@@ -3,15 +3,14 @@ kind: Deployment
 metadata:
   name: postgres
   namespace: dbcenter
+  labels: { app: postgres }
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: postgres
+    matchLabels: { app: postgres }
   template:
     metadata:
-      labels:
-        app: postgres
+      labels: { app: postgres }
     spec:
       containers:
         - name: postgres
