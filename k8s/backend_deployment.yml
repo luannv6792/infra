@@ -17,13 +17,13 @@ spec:
     spec:
       containers:
         - name: infraback
-          image: luannv67922/infraback:latest   # replace
+          image: luannv67922/infraback:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
           env:
             - name: POSTGRES_HOST
-              value: "postgres-service.dbcenter"
+              value: "postgres-service.dbcenter.svc.cluster.local"
             - name: POSTGRES_PORT
               value: "5432"
             - name: POSTGRES_DB
@@ -52,7 +52,6 @@ spec:
     app: infraback
   ports:
     - name: http
-      protocol: TCP
       port: 8000
       targetPort: 8000
       nodePort: 32001
