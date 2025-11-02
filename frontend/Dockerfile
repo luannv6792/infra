@@ -1,4 +1,6 @@
+# ==============================
 # Stage 1: Build React App
+# ==============================
 FROM node:20-alpine AS builder
 
 WORKDIR /app
@@ -6,26 +8,34 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies (allow missing lockfile)
+# Cài dependencies (không cần package-lock.json)
 RUN npm install --legacy-peer-deps
 
-# Copy source code
-COPY . .
-
-# Explicitly ensure framer-motion & lucide-react installed
+# Cài thêm thư viện cần thiết cho giao diện
 RUN npm install framer-motion lucide-react --legacy-peer-deps
+
+# Copy toàn bộ source code
+COPY . .
 
 # Build production
 RUN npm run build
 
-# Stage 2: Serve with Nginx
+# ==============================
+# Stage 2: Serve bằng Nginx
+# ==============================
 FROM nginx:alpine
 
-# Copy build output to nginx
+# Xoá default nginx config
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Thêm cấu hình Nginx custom
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy file build từ stage builder
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Expose port
-EXPOSE 5173
+# Expose port 80 để service NodePort map ra ngoài
+EXPOSE 80
 
-# Default command
+# Chạy nginx ở foreground
 CMD ["nginx", "-g", "daemon off;"]
