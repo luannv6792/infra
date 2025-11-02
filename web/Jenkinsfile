@@ -37,7 +37,8 @@ pipeline {
         script {
           sh """
             kubectl set image deployment/infra-web-deployment infra-web=${IMAGE_NAME}:${BUILD_NUMBER} -n app || \
-            kubectl apply -f web/infra-web-deployment.yml
+            kubectl apply -f web/infra_web.yml
+            kubectl rollout status deployment/infra-web-deployment -n app
           """
         }
       }
