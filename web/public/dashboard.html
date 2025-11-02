@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infras Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body onload="initTheme()">
+  <div class="dashboard">
+    <aside class="sidebar">
+      <h2>Infras</h2>
+      <ul>
+        <li>Applications</li>
+        <li>Reports</li>
+        <li>Settings</li>
+      </ul>
+      <button class="toggle" onclick="toggleTheme()">🌓 Đổi chế độ</button>
+    </aside>
+
+    <main class="content">
+      <h1>Welcome to Infras Dashboard</h1>
+    </main>
+  </div>
+
+  <script>
+    function initTheme() {
+      const theme = localStorage.getItem("theme") || "dark";
+      document.body.className = theme;
+    }
+    function toggleTheme() {
+      const theme = document.body.classList.contains("dark") ? "light" : "dark";
+      document.body.className = theme;
+      localStorage.setItem("theme", theme);
+    }
+  </script>
+</body>
+</html>
