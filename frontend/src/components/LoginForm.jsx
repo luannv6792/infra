@@ -1,45 +1,47 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-export default function LoginForm({ onLoginSuccess }) {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [msg, setMsg] = useState('')
+export default function LoginForm({ onLogin }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const submit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setMsg('')
-    try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      })
-      const data = await res.json().catch(() => null)
-      if (res.ok && data && data.success) {
-        onLoginSuccess(username)
-      } else {
-        setMsg(data?.message || 'Sai username hoặc mật khẩu')
-      }
-    } catch (err) {
-      setMsg('Không thể kết nối tới server')
-      console.error(err)
-    } finally { setLoading(false) }
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onLogin(username, password);
+  };
 
   return (
-    <form onSubmit={submit} className="bg-[#1F2937] p-8 rounded-2xl shadow-2xl w-96 fade-in">
-      <div className="flex flex-col items-center">
-        <h2 className="title-infras">Infras</h2>
-      </div>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-[#111827] to-[#0F111A] transition-all">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-[#1F2937] dark:bg-[#111827] p-8 rounded-2xl shadow-2xl w-96 transition-all duration-500"
+      >
+        <h2 className="text-3xl font-bold text-center mb-6 text-[#60A5FA] drop-shadow-md">
+          Infras
+        </h2>
 
-      <input value={username} onChange={(e)=>setUsername(e.target.value)} placeholder="Username" className="w-full mb-4 p-3 rounded-lg bg-[#111827] border border-gray-600 text-white focus:outline-none"/>
-      <input value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Password" type="password" className="w-full mb-6 p-3 rounded-lg bg-[#111827] border border-gray-600 text-white focus:outline-none"/>
-      <button disabled={loading} className={`w-full py-3 rounded-lg font-semibold text-white ${loading ? 'bg-gray-500' : 'bg-[#2563EB] hover:bg-[#1D4ED8]'}`}>
-        {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
-      </button>
-      {msg && <p className="mt-4 text-sm text-red-300 text-center">{msg}</p>}
-    </form>
-  )
+        <input
+          type="text"
+          placeholder="Username"
+          className="w-full mb-4 p-3 rounded-lg bg-[#0F172A] border border-gray-600 text-white"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full mb-6 p-3 rounded-lg bg-[#0F172A] border border-gray-600 text-white"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button
+          type="submit"
+          className="w-full py-3 bg-[#2563EB] hover:bg-[#1D4ED8] rounded-lg font-semibold text-white transition-all shadow-lg"
+        >
+          Đăng nhập
+        </button>
+      </form>
+    </div>
+  );
 }
