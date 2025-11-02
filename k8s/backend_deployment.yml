@@ -17,21 +17,21 @@ spec:
     spec:
       containers:
         - name: infraback
-          image: luannv67922/infraback:latest   # <<--- Thay tên image thật của bạn
+          image: YOUR_DOCKERHUB_USER/infraback:latest   # replace
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
           env:
             - name: POSTGRES_HOST
-              value: "postgres"          # service name của postgres (namespace app)
+              value: "postgres-service.dbcenter"
             - name: POSTGRES_PORT
               value: "5432"
             - name: POSTGRES_DB
-              value: "analyticsdb"
+              value: "infradb"
             - name: POSTGRES_USER
-              value: "admin"
+              value: "infrauser"
             - name: POSTGRES_PASSWORD
-              value: "luannv@1231"
+              value: "123456"
           readinessProbe:
             httpGet:
               path: /health
