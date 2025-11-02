@@ -1,38 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Infras Dashboard</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  </script>
 </head>
-<body onload="initTheme()">
-  <div class="dashboard">
+<body>
+  <div class="dashboard fade-in">
     <aside class="sidebar">
-      <h2>Infras</h2>
-      <ul>
-        <li>Applications</li>
-        <li>Reports</li>
-        <li>Settings</li>
-      </ul>
-      <button class="toggle" onclick="toggleTheme()">🌓 Đổi chế độ</button>
+      <div class="menu-item">Applications</div>
+      <div class="menu-item">Reports</div>
+      <div class="menu-item">Settings</div>
     </aside>
-
     <main class="content">
       <h1>Welcome to Infras Dashboard</h1>
     </main>
   </div>
-
-  <script>
-    function initTheme() {
-      const theme = localStorage.getItem("theme") || "dark";
-      document.body.className = theme;
-    }
-    function toggleTheme() {
-      const theme = document.body.classList.contains("dark") ? "light" : "dark";
-      document.body.className = theme;
-      localStorage.setItem("theme", theme);
-    }
-  </script>
 </body>
 </html>
