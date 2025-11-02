@@ -1,14 +1,17 @@
-# Dockerfile (frontend)
-FROM node:20-alpine AS build
+# Build stage
+FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
-
-# Dùng npm install thay vì npm ci
-RUN npm install
+RUN npm install --legacy-peer-deps
+# ensure libs exist (in case package.json missing)
+RUN npm install framer-motion lucide-react --legacy-peer-deps
 COPY . .
 RUN npm run build
 
+# Serve stage
 FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
