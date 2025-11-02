@@ -1,38 +1,37 @@
-import React, { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import LoginForm from './components/LoginForm'
-import Dashboard from './components/Dashboard'
-import { ThemeProvider } from './context/ThemeContext'
+import React, { useState, useEffect } from "react";
+import LoginForm from "./components/LoginForm";
+import Dashboard from "./components/Dashboard";
+import "./transitions.css";
 
 export default function App() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
 
-  return (
-    <ThemeProvider>
-      <AnimatePresence mode="wait">
-        {!user ? (
-          <motion.div
-            key="login"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.45 }}
-            className="flex items-center justify-center min-h-screen bg-gradient-to-b from-[#111827] to-[#0F111A]"
-          >
-            <LoginForm onLoginSuccess={(username) => setUser({ username })} />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="dashboard"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.45 }}
-          >
-            <Dashboard username={user.username} onLogout={() => setUser(null)} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </ThemeProvider>
-  )
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const handleLogin = async (username, password) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await response.json();
+      if (response.ok && data.status === "success") {
+        setUser(username);
+      } else {
+        alert("Sai username hoặc mật khẩu");
+      }
+    } catch (err) {
+      alert("Không thể kết nối tới backend");
+      console.error(err);
+    }
+  };
+
+  if (!user) return <LoginForm onLogin={handleLogin} />;
+
+  return <Dashboard theme={theme} setTheme={setTheme} />;
 }
