@@ -1,21 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Sidebar from './Sidebar'
+import ThemeToggle from './ThemeToggle'
 
-export default function Dashboard({ onLogout }) {
+export default function Dashboard({ username, onLogout }) {
+  const [active, setActive] = useState('apps')
   return (
-    <div className="flex h-screen transition-all bg-gray-50 dark:bg-[#0F111A]">
-      <Sidebar />
-      <div className="flex-1 p-8 text-gray-800 dark:text-white transition-all duration-300">
-        <h1 className="text-3xl font-bold mb-4">Welcome to Infras Dashboard</h1>
-        <p className="text-gray-500 dark:text-gray-400">
-          Chọn menu bên trái để tiếp tục.
-        </p>
-        <button
-          onClick={onLogout}
-          className="mt-6 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all"
-        >
-          Đăng xuất
-        </button>
+    <div className="flex h-screen bg-gray-50 dark:bg-[#0F111A] text-gray-900 dark:text-white transition-colors">
+      <Sidebar active={active} onSelect={setActive}/>
+      <div className="flex-1 p-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Welcome, {username}</h1>
+          <div className="flex gap-3 items-center">
+            <ThemeToggle/>
+            <button onClick={onLogout} className="px-3 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white">Logout</button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="menu-card">Main content area for {active}</div>
+          <div className="menu-card">Widgets / stats</div>
+          <div className="menu-card">More content</div>
+        </div>
       </div>
     </div>
   )
