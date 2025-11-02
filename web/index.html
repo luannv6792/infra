@@ -41,14 +41,16 @@
   </script>
 </head>
 <body>
-  <div class="container fade-in">
-    <h1 class="logo">Infras</h1>
-    <form onsubmit="login(event)">
-      <input id="username" type="text" placeholder="Username" required />
-      <input id="password" type="password" placeholder="Password" required />
-      <button type="submit">Đăng nhập</button>
-    </form>
-    <button class="toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+  <div class="login-wrapper fade-in">
+    <div class="login-card glass">
+      <h1 class="logo">Infras</h1>
+      <form onsubmit="login(event)" class="login-form">
+        <input id="username" type="text" placeholder="Username" required />
+        <input id="password" type="password" placeholder="Password" required />
+        <button type="submit">Đăng nhập</button>
+      </form>
+      <button class="toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+    </div>
   </div>
 </body>
 </html>
