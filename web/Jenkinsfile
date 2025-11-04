@@ -2,55 +2,78 @@ pipeline {
   agent any
 
   environment {
-    IMAGE_NAME = "infraweb"
-        DOCKERHUB_CREDENTIALS = 'dockerhub'
-        DOCKERHUB_USER = 'luannv67922'   // 🔁 thay bằng user thật
-        IMAGE_NAME = 'infraweb'
-        IMAGE_TAG = "build-${BUILD_NUMBER}"
+    // 🔐 DockerHub credentials ID trong Jenkins
+    DOCKERHUB_CREDENTIALS = 'dockerhub'    // Thay bằng ID thật trong Jenkins Credentials
 
-        // 🧩 K8s namespace
-        K8S_NAMESPACE = "app"
-        DEPLOYMENT_FILE = "k8s/backend_deployment.yml"
+    // 👤 DockerHub username
+    DOCKERHUB_USER = 'luannv67922'           // Thay bằng username thật
+
+    // 🏷️ Image config
+    IMAGE_NAME = 'infraweb'       // Tên image
+    IMAGE_TAG = "latest"          // Tag mặc định (có thể build theo commit SHA)
+
+    // 🧩 Kubernetes config
+    K8S_NAMESPACE = "app"
+    DEPLOYMENT_FILE = "infra/k8s/frontend_deployment.yml"
+  }
+
+  options {
+    timestamps()
+    ansiColor('xterm')
   }
 
   stages {
     stage('Checkout') {
       steps {
+        echo "🔄 Pulling latest code from Git..."
         checkout scm
       }
     }
 
-        stage('Build Docker image') {
-            steps {
-                script {
-                    echo "🏗️ Building Docker image..."
-                    sh "docker build -t ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} -t ${DOCKERHUB_USER}/${IMAGE_NAME}:latest infra/web/."
-                }
-            }
-}
-
-
-        stage('Push Docker image to DockerHub') {
-            steps {
-                script {
-                    echo "🚀 Pushing Docker image to DockerHub..."
-                    withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                        sh """
-                            echo "$PASS" | docker login -u "$USER" --password-stdin
-                            docker push ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}
-                            docker push ${DOCKERHUB_USER}/${IMAGE_NAME}:latest
-                            docker logout
-                        """
-                    }
-                }
-            }
+    stage('Build Docker Image') {
+      steps {
+        script {
+          echo "🐳 Building Docker image..."
+          sh """
+            docker build -t ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} infra/web
+          """
         }
+      }
+    }
+
+    stage('Push to DockerHub') {
+      steps {
+        script {
+          echo "📦 Pushing image to DockerHub..."
+          docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDENTIALS}") {
+            sh """
+              docker push ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}
+            """
+          }
+        }
+      }
+    }
 
     stage('Deploy to Kubernetes') {
       steps {
-        sh "kubectl apply -f infra/k8s/frontend_deployment.yml"
-        sh "kubectl rollout restart deployment/infra-web -n app"
+        script {
+          echo "🚀 Deploying ${IMAGE_NAME}:${IMAGE_TAG} to namespace ${K8S_NAMESPACE}..."
+          sh """
+            kubectl apply -f ${DEPLOYMENT_FILE} -n ${K8S_NAMESPACE}
+            kubectl rollout restart deployment/${IMAGE_NAME}-deployment -n ${K8S_NAMESPACE} || true
+            kubectl get pods -n ${K8S_NAMESPACE}
+          """
+        }
       }
+    }
+  }
+
+  post {
+    success {
+      echo "✅ Deployment successful!"
+    }
+    failure {
+      echo "❌ Build or deploy failed. Check logs!"
     }
   }
 }
