@@ -17,11 +17,6 @@ pipeline {
     DEPLOYMENT_FILE = "infra/k8s/frontend_deployment.yml"
   }
 
-  options {
-    timestamps()
-    ansiColor('xterm')
-  }
-
   stages {
     stage('Checkout') {
       steps {
