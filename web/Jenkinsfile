@@ -26,7 +26,8 @@ pipeline {
 
     stage('Deploy to Kubernetes') {
       steps {
-        sh "kubectl apply -f infra/k8s/frontend-web.yml"
+        sh "kubectl apply -f infra/k8s/frontend_deployment.yml"
+        sh "kubectl rollout restart deployment/infra-web -n app"
       }
     }
   }
