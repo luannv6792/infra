@@ -14,7 +14,7 @@ pipeline {
 
     // 🧩 Kubernetes config
     K8S_NAMESPACE = "app"
-    DEPLOYMENT_FILE = "infra/k8s/frontend_deployment.yml"
+    DEPLOYMENT_FILE = "k8s/frontend_deployment.yml"
   }
 
   stages {
