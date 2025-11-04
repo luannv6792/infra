@@ -3,7 +3,7 @@ pipeline {
 
   environment {
     IMAGE_NAME = "infraweb"
-    DOCKERHUB_CREDENTIALS =  "dockerhub"
+    DOCKERHUB_CREDENTIALS = 'dockerhub'
   }
 
   stages {
