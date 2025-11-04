@@ -9,7 +9,7 @@ pipeline {
     DOCKERHUB_USER = 'luannv67922'           // Thay bằng username thật
 
     // 🏷️ Image config
-    IMAGE_NAME = 'infraweb'       // Tên image
+    IMAGE_NAME = 'frontend-php'       // Tên image
     IMAGE_TAG = "latest"          // Tag mặc định (có thể build theo commit SHA)
 
     // 🧩 Kubernetes config
