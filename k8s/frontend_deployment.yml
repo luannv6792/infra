@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: infrafront-deployment
+  name: infra-web-deployment
   namespace: app
   labels:
-    app: infrafront
+    app: infra-web
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: infrafront
+      app: infra-web
   template:
     metadata:
       labels:
-        app: infrafront
+        app: infra-web
     spec:
       containers:
-        - name: infrafront
-          image: luannv67922/infrafront:latest
+        - name: infra-web
+          image: luannv67922/infraweb:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -25,14 +25,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: infrafront-service
+  name: infra-web-service
   namespace: app
 spec:
   selector:
-    app: infrafront
+    app: infra-web
   ports:
     - name: http
       port: 80
       targetPort: 80
-      nodePort: 32002
+      nodePort: 32003
   type: NodePort
