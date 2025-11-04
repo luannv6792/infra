@@ -1,28 +1,16 @@
-# ===== Stage 1: Build =====
-FROM node:20-alpine AS builder
-WORKDIR /app
+# Dockerfile for PHP frontend
+FROM php:8.1-apache
 
-# Copy and install dependencies
-COPY package*.json ./
-RUN npm install
+# enable mod_rewrite if needed
+RUN a2enmod rewrite
 
-# Copy source code
-COPY . .
+# copy app
+COPY . /var/www/html/
 
-# Build Vue project
-RUN npm run build
+# set permissions (if needed)
+RUN chown -R www-data:www-data /var/www/html
 
-# ===== Stage 2: Serve with Nginx =====
-FROM nginx:alpine
-
-# Remove default nginx page
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copy built files from builder
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Optional: Custom nginx config
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
+# expose port 80 inside container
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+# default command handled by image
