@@ -1,13 +1,31 @@
 <template>
-  <div
-    class="min-h-screen flex items-center justify-center bg-cover bg-center relative"
-    :style="{ backgroundImage: 'url(/src/assets/bg-tech.jpg)' }"
-  >
-    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
-    <LoginForm />
+  <div class="login-container">
+    <h1>Infras Login</h1>
+    <input v-model="username" type="text" placeholder="Username" />
+    <input v-model="password" type="password" placeholder="Password" />
+    <button @click="login">Login</button>
+    <p v-if="error" style="color: red; margin-top: 10px;">{{ error }}</p>
   </div>
 </template>
 
 <script setup>
-import LoginForm from './components/LoginForm.vue'
+import axios from 'axios'
+import { ref } from 'vue'
+
+const username = ref('')
+const password = ref('')
+const error = ref('')
+
+const login = async () => {
+  try {
+    const response = await axios.post('/api/login', { username: username.value, password: password.value })
+    if (response.data && response.data.success) {
+      window.location.href = '/dashboard.html'
+    } else {
+      error.value = 'Sai username hoặc mật khẩu'
+    }
+  } catch (e) {
+    error.value = 'Không thể kết nối đến server'
+  }
+}
 </script>
