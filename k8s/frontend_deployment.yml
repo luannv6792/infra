@@ -1,38 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: infra-web-deployment
-  namespace: app
+  name: frontend-php
   labels:
-    app: infra-web
+    app: frontend-php
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: infra-web
+      app: frontend-php
   template:
     metadata:
       labels:
-        app: infra-web
+        app: frontend-php
     spec:
       containers:
-        - name: infra-web
-          image: luannv67922/infraweb:latest
+        - name: frontend
+          image: luannv67922/frontend-php:latest  # <-- build & push trước
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: infra-web-service
-  namespace: app
+  name: frontend-php-service
 spec:
+  type: NodePort
   selector:
-    app: infra-web
+    app: frontend-php
   ports:
-    - name: http
+    - protocol: TCP
       port: 80
       targetPort: 80
-      nodePort: 32003
-  type: NodePort
+      nodePort: 32002   # <-- NodePort bạn có thể thay đổi
