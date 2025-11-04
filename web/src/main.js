@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import './index.css'
 import App from './App.vue'
+import './index.css'  // ✅ Đường dẫn chính xác
 
 createApp(App).mount('#app')
