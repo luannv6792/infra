@@ -12,10 +12,12 @@ unset($_SESSION['login_error']);
 <body>
 
 <div class="bg-container">
-    <!-- các hình ảnh nền tự động -->
     <div class="bg-slide" style="background-image:url('/assets/images/tech1.jpg');"></div>
     <div class="bg-slide" style="background-image:url('/assets/images/tech2.jpg');"></div>
     <div class="bg-slide" style="background-image:url('/assets/images/tech3.jpg');"></div>
+    <div class="bg-slide" style="background-image:url('/assets/images/tech4.jpg');"></div>
+    <div class="bg-slide" style="background-image:url('/assets/images/tech5.jpg');"></div>
+    <div class="bg-slide" style="background-image:url('/assets/images/tech6.jpg');"></div>
 </div>
 
 <div class="login-wrapper">
