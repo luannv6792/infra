@@ -1,153 +1,141 @@
 /* GENERAL */
 body {
-    margin: 0;
-    font-family: "Inter", sans-serif;
-    transition: 0.25s;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* TOP BAR */
 .top-bar {
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 25px;
-    font-weight: 500;
-    transition: 0.25s;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
 }
 
+/* Định dạng cho nút dark/light và logout */
 .top-actions {
-    display: flex;
-    gap: 15px;
+  display: flex;
+  gap: 12px;
 }
 
 .mode-btn {
-    border: none;
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: 0.25s;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
 }
 
 .logout-btn {
-    text-decoration: none;
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: 0.25s;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* CONTAINER */
 .container {
-    display: flex;
-    min-height: calc(100vh - 60px);
+  display: flex;
+  min-height: calc(100vh - 60px);
 }
 
 /* SIDEBAR */
 .sidebar {
-    width: 250px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+  width: 240px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .menu-card {
-    margin-bottom: 16px;
-    padding: 16px;
-    border-radius: 12px;
-    transition: 0.3s;
-    cursor: pointer;
+  margin-bottom: 16px;
+  padding: 14px;
+  border-radius: 10px;
+  transition: background 0.3s, transform 0.3s;
+  cursor: pointer;
 }
 
 .menu-card a {
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 500;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 /* CONTENT */
 .content {
-    flex: 1;
-    padding: 30px;
-    border-radius: 12px;
-    transition: 0.25s;
+  flex: 1;
+  padding: 30px;
+  border-radius: 8px;
+  transition: background 0.3s, color 0.3s;
 }
 
-/* ================= LIGHT MODE ================= */
+/* ===== LIGHT MODE (theo màu HashiCorp) ===== */
 .light-mode body {
-    background: #f5f3ff; /* toàn bộ nền trang */
+  background: #f7f8fb; /* tông xám nhạt theo style guide của HashiCorp */ 
+  color: #1d1f25; /* từ grayscale HashiCorp :contentReference[oaicite:4]{index=4} */
 }
 
 .light-mode .top-bar {
-    background: #4c1d95;
-    color: #fff;
+  background: #000000; /* brand black HashiCorp :contentReference[oaicite:5]{index=5} */
+  color: #ffffff;
 }
 
 .light-mode .mode-btn {
-    background: #6d28d9;
-    color: #fff;
+  background: #1c345f; /* “blue-500” trong Helios :contentReference[oaicite:6]{index=6} */
+  color: #ffffff;
 }
 
 .light-mode .logout-btn {
-    background: #ef4444;
-    color: #fff;
+  background: #4e515d; /* một tông xám đậm trong grayscale :contentReference[oaicite:7]{index=7} */
+  color: #ffffff;
 }
 
 .light-mode .sidebar {
-    background: #5b21b6;
+  background: #1d1f25; /* rất tối, như background dark mode nhẹ hoặc xám rất đậm */
 }
 
 .light-mode .menu-card {
-    background: #7c3aed;
-    color: #fff;
+  background: #1c345f; /* cùng màu xanh như nút mode */
+  color: #ffffff;
 }
 
 .light-mode .menu-card:hover {
-    background: #a78bfa;
-    transform: translateX(-4px);
+  background: #1060ff; /* blue-200 trong Helios :contentReference[oaicite:8]{index=8} */
+  transform: translateX(-4px);
 }
 
 .light-mode .content {
-    background: #ede9fe;
-    color: #111;
+  background: #ffffff;
+  color: #1d1f25;
 }
 
-/* ================= DARK MODE ================= */
+/* ===== DARK MODE (theo màu HashiCorp) ===== */
 .dark-mode body {
-    background: #1a1a2e; /* toàn bộ nền trang */
+  background: #1d1f25; /* một tông xám/dark theo brand guide */
+  color: #f7f8fb;
 }
 
 .dark-mode .top-bar {
-    background: #1e1e2f;
-    color: #eee;
+  background: #000000; /* brand black */
+  color: #ffffff;
 }
 
 .dark-mode .mode-btn {
-    background: #3a3a50;
-    color: #eee;
+  background: #1c345f; /* blue-500 */
+  color: #ffffff;
 }
 
 .dark-mode .logout-btn {
-    background: #ef4444;
-    color: #fff;
+  background: #4e515d;
+  color: #ffffff;
 }
 
 .dark-mode .sidebar {
-    background: #2e2e3e;
+  background: #000000;
 }
 
 .dark-mode .menu-card {
-    background: #3a3a50;
-    color: #eee;
-}
-
-.dark-mode .menu-card:hover {
-    background: #4a4a6a;
-    transform: translateX(-4px);
-}
-
-.dark-mode .content {
-    background: #12112b;
-    color: #eee;
-}
+  background: #1c345f;
+  col
