@@ -1,131 +1,109 @@
+<?php
+$err = $_SESSION['login_error'] ?? '';
+unset($_SESSION['login_error']);
+?>
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Login</title>
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: Arial;
+            background: linear-gradient(135deg, #4c1d95, #7c3aed, #ec4899, #f43f5e);
+            background-size: 300% 300%;
+            animation: gradientMove 10s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-<style>
-    body {
-        margin: 0;
-        font-family: "Inter", sans-serif;
-        height: 100vh;
-        display: flex;
-        justify-content: flex-end; /* form sang bên phải */
-        align-items: center;
-        background: linear-gradient(135deg, #6a11cb, #2575fc, #ff6f91, #ffc371);
-        background-size: 300% 300%;
-        animation: gradientFlow 12s ease infinite;
-    }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-    @keyframes gradientFlow {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
+        .container {
+            width: 900px;
+            height: 500px;
+            display: flex;
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+        }
 
-    .login-box {
-        width: 380px;
-        margin-right: 8%;
-        padding: 40px;
-        border-radius: 20px;
-        backdrop-filter: blur(18px);
-        background: rgba(255, 255, 255, 0.15);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-        color: white;
-        animation: fadeIn 0.8s ease-out;
-    }
+        .left {
+            width: 60%;
+            padding: 40px;
+            color: white;
+        }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateX(40px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
+        .right {
+            width: 40%;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+        }
 
-    .login-box h2 {
-        margin-bottom: 25px;
-        font-size: 28px;
-        font-weight: 600;
-        text-align: center;
-    }
+        .login-box {
+            margin-top: 40px;
+        }
 
-    .input-group {
-        margin-bottom: 18px;
-    }
+        .input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
 
-    .input-group label {
-        font-size: 14px;
-        opacity: 0.9;
-    }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            border: none;
+            background: #4c1d95;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-    .input-group input {
-        width: 100%;
-        padding: 12px 16px;
-        margin-top: 6px;
-        border-radius: 12px;
-        border: none;
-        outline: none;
-        background: rgba(255, 255, 255, 0.25);
-        color: #fff;
-        font-size: 15px;
-        box-shadow: inset 0 0 8px rgba(255,255,255,0.15);
-    }
+        .btn:hover {
+            background: #7c3aed;
+        }
 
-    .input-group input::placeholder {
-        color: #eeeeee;
-        opacity: 0.7;
-    }
-
-    .btn-login {
-        width: 100%;
-        padding: 14px;
-        border-radius: 12px;
-        border: none;
-        background: #ffffff;
-        color: #333;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        margin-top: 8px;
-        transition: 0.25s;
-    }
-
-    .btn-login:hover {
-        background: #e5e5e5;
-        transform: translateY(-2px);
-    }
-
-    .error-msg {
-        text-align: center;
-        margin-bottom: 10px;
-        color: #ffdddd;
-        font-size: 14px;
-    }
-</style>
-
+        .error {
+            color: yellow;
+            margin-top: 10px;
+        }
+    </style>
 </head>
+
 <body>
+    <div class="container">
 
-<div class="login-box">
-    <h2>Đăng nhập hệ thống</h2>
-
-    <?php if(!empty($error)): ?>
-        <div class="error-msg"><?= $error ?></div>
-    <?php endif; ?>
-
-    <form method="POST" action="/auth/login">
-        <div class="input-group">
-            <label>Tên đăng nhập</label>
-            <input type="text" name="username" placeholder="admin" required>
+        <div class="left">
+            <h1>Welcome Back!</h1>
+            <p>Hệ thống quản trị CNTT – phiên bản chuyên nghiệp</p>
         </div>
 
-        <div class="input-group">
-            <label>Mật khẩu</label>
-            <input type="password" name="password" placeholder="•••••" required>
+        <div class="right">
+            <h2>Login</h2>
+            <form method="POST" action="/auth/login" class="login-box">
+                <input class="input" type="text" name="username" placeholder="Username" required>
+                <input class="input" type="password" name="password" placeholder="Password" required>
+                <button class="btn">Login</button>
+                <?php if ($err): ?>
+                    <div class="error"><?= $err ?></div>
+                <?php endif; ?>
+            </form>
         </div>
 
-        <button class="btn-login">Đăng nhập</button>
-    </form>
-</div>
-
+    </div>
 </body>
 </html>
