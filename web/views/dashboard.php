@@ -1,12 +1,10 @@
-<?php
-$title = "Dashboard";
-ob_start();
-?>
-
-<h1>Dashboard</h1>
-<p>Chào mừng, <?= $_SESSION["user"] ?>!</p>
-<p>Đây là giao diện dashboard mẫu. Bạn có thể yêu cầu thêm chart, thống kê, v.v.</p>
-
-<?php
-$content = ob_get_clean();
-require "views/layout.php";
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body style="font-family: Arial;">
+    <h1>Dashboard</h1>
+    <a href="/logout">Logout</a>
+</body>
+</html>
