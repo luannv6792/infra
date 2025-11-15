@@ -30,21 +30,21 @@ body, html {
 .login-wrapper {
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 380px;
+    right: 0;
+    transform: translateY(-50%);
+    width: 40%;
     padding: 40px;
     border-radius: 16px;
     background: rgba(255,255,255,0.15);
     backdrop-filter: blur(12px);
     box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     color: #fff;
-    text-align: center;
 }
 
 .login-wrapper h2 {
     margin-bottom: 20px;
     font-size: 28px;
+    text-align: center;
 }
 
 .login-wrapper input {
@@ -75,9 +75,25 @@ body, html {
 .error {
     color: #ffcc00;
     margin-top: 10px;
+    text-align: center;
 }
 
 /* RESPONSIVE */
+@media screen and (max-width: 1024px) {
+    .login-wrapper {
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .login-wrapper {
+        width: 80%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        right: unset;
+    }
+}
+
 @media screen and (max-width: 480px) {
     .login-wrapper {
         width: 90%;
