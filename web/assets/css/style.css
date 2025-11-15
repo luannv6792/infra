@@ -1,0 +1,138 @@
+/* RESET */
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+/* --- LOGIN PAGE --- */
+.login-body {
+    height: 100vh;
+}
+
+.login-container {
+    display: flex;
+    height: 100%;
+}
+
+.login-panel {
+    width: 40%;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-panel h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.login-panel input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0 20px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+}
+
+.login-panel button {
+    padding: 12px;
+    width: 100%;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.login-panel button:hover {
+    background: #005fcc;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.login-bg {
+    width: 60%;
+    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+}
+
+/* --- DASHBOARD --- */
+
+.dashboard-body {
+    background: var(--bg);
+    color: var(--text);
+    transition: 0.3s ease;
+}
+
+:root {
+    --bg: #f3f4f6;
+    --text: #222;
+    --card: #fff;
+    --hover: #e5e7eb;
+}
+
+.dark {
+    --bg: #1e1e1e;
+    --text: #f9f9f9;
+    --card: #2a2a2a;
+    --hover: #333;
+}
+
+.header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.theme-toggle button {
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--card);
+    border: 1px solid #aaa;
+    cursor: pointer;
+}
+
+.dashboard-container {
+    display: flex;
+    padding: 20px;
+}
+
+.sidebar {
+    width: 250px;
+    padding: 20px;
+}
+
+.menu-card {
+    background: var(--card);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-size: 16px;
+}
+
+.menu-card:hover {
+    background: var(--hover);
+    transform: translateX(-5px);
+}
+
+.logout {
+    background: #ffdddd;
+}
+
+.content-area {
+    flex: 1;
+    padding: 20px;
+}
+
+.widget {
+    background: var(--card);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+}
