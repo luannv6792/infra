@@ -89,7 +89,7 @@ unset($_SESSION['login_error']);
 
         <div class="left">
             <h1>Welcome Back!</h1>
-            <p>Hệ thống quản trị CNTT – phiên bản chuyên nghiệp</p>
+            <p>Infrastructure management system</p>
         </div>
 
         <div class="right">
