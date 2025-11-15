@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title><?= $title ?? "Dashboard" ?></title>
-<link rel="stylesheet" href="/assets/style.css">
-<script src="/assets/script.js"></script>
+    <meta charset="UTF-8">
+    <title><?= $title ?? "Dashboard" ?></title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <script src="/assets/script.js" defer></script>
 </head>
-
 <body class="light-mode" id="body">
 
 <div class="top-bar">
     <div class="title">Hệ thống quản trị</div>
-
     <div class="top-actions">
         <button id="modeToggle" class="mode-btn">🌙 / ☀️</button>
-        <a href="/auth/logout" class="logout-btn">Logout</a>
+        <a href="/logout" class="logout-btn">Logout</a>
     </div>
 </div>
 
