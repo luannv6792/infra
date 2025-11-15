@@ -8,12 +8,12 @@ body {
 /* TOP BAR */
 .top-bar {
     height: 60px;
-    background: #4c1d95;
-    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 25px;
+    font-weight: 500;
+    transition: 0.25s;
 }
 
 .top-actions {
@@ -22,20 +22,20 @@ body {
 }
 
 .mode-btn {
-    background: #6d28d9;
     border: none;
     padding: 6px 12px;
     border-radius: 8px;
     cursor: pointer;
-    color: white;
+    font-weight: 500;
+    transition: 0.25s;
 }
 
 .logout-btn {
-    color: white;
     text-decoration: none;
-    background: #ef4444;
     padding: 6px 14px;
     border-radius: 8px;
+    font-weight: 500;
+    transition: 0.25s;
 }
 
 /* CONTAINER */
@@ -47,61 +47,51 @@ body {
 /* SIDEBAR */
 .sidebar {
     width: 250px;
-    background: #5b21b6;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .menu-card {
     margin-bottom: 16px;
     padding: 16px;
     border-radius: 12px;
-    background: #7c3aed;
     transition: 0.3s;
-}
-
-.menu-card:hover {
-    background: #a78bfa;
-    transform: translateX(-4px);
+    cursor: pointer;
 }
 
 .menu-card a {
-    color: white;
     text-decoration: none;
     font-size: 16px;
+    font-weight: 500;
 }
 
 /* CONTENT */
 .content {
     flex: 1;
     padding: 30px;
-    background: #ede9fe;
+    border-radius: 12px;
+    transition: 0.25s;
 }
 
-/* DARK MODE */
-.dark-mode .top-bar {
-    background: #1e1e2f;
+/* ================= LIGHT MODE ================= */
+.light-mode body {
+    background: #f5f3ff; /* toàn bộ nền trang */
 }
 
-.dark-mode .sidebar {
-    background: #2e2e3e;
-}
-
-.dark-mode .menu-card {
-    background: #3a3a50;
-}
-
-.dark-mode .menu-card:hover {
-    background: #4a4a6a;
-}
-
-.dark-mode .content {
-    background: #121212;
-    color: #eee;
-}
-
-/* LIGHT MODE */
 .light-mode .top-bar {
     background: #4c1d95;
+    color: #fff;
+}
+
+.light-mode .mode-btn {
+    background: #6d28d9;
+    color: #fff;
+}
+
+.light-mode .logout-btn {
+    background: #ef4444;
+    color: #fff;
 }
 
 .light-mode .sidebar {
@@ -110,13 +100,54 @@ body {
 
 .light-mode .menu-card {
     background: #7c3aed;
+    color: #fff;
 }
 
 .light-mode .menu-card:hover {
     background: #a78bfa;
+    transform: translateX(-4px);
 }
 
 .light-mode .content {
     background: #ede9fe;
     color: #111;
+}
+
+/* ================= DARK MODE ================= */
+.dark-mode body {
+    background: #1a1a2e; /* toàn bộ nền trang */
+}
+
+.dark-mode .top-bar {
+    background: #1e1e2f;
+    color: #eee;
+}
+
+.dark-mode .mode-btn {
+    background: #3a3a50;
+    color: #eee;
+}
+
+.dark-mode .logout-btn {
+    background: #ef4444;
+    color: #fff;
+}
+
+.dark-mode .sidebar {
+    background: #2e2e3e;
+}
+
+.dark-mode .menu-card {
+    background: #3a3a50;
+    color: #eee;
+}
+
+.dark-mode .menu-card:hover {
+    background: #4a4a6a;
+    transform: translateX(-4px);
+}
+
+.dark-mode .content {
+    background: #12112b;
+    color: #eee;
 }
